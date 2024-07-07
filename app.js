@@ -1,20 +1,18 @@
 const path = require('path');
+const mongoose = require('mongoose');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI =
-  'mongodb+srv://maximilian:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/shop';
 
 const app = express();
 const store = new MongoDBStore({
-  uri: MONGODB_URI,
+  uri: 'mongodb://127.0.0.1/shoppingWebsite',
   collection: 'sessions'
 });
 
@@ -55,7 +53,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect('mongodb://127.0.0.1/shoppingWebsite')
   .then(result => {
     app.listen(3000);
   })
